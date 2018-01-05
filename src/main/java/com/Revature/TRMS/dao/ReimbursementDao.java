@@ -1,5 +1,6 @@
 package com.Revature.TRMS.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,8 @@ import java.util.List;
 import com.Revature.TRMS.ConnectionUtil;
 import com.Revature.TRMS.impl.Reimbursement;
 
+import oracle.jdbc.internal.OracleTypes;
+
 public class ReimbursementDao {
 
 	// get a list of all Reimbursement forms
@@ -18,12 +21,18 @@ public class ReimbursementDao {
 		Reimbursement reimForm = null;
 		List<Reimbursement> reimList = new ArrayList<>();
 
+		CallableStatement cs = null;
+		
 		try (Connection conn = ConnectionUtil.getConnection()) {
-			String sql = "SELECT * FROM Reimbursement ORDER BY EID ASC";
-			ps = conn.prepareStatement(sql);
-			// Add any variables to PS
-			ResultSet rs = ps.executeQuery();
 
+			String sql = "{call SE_GROUP(?)}";
+			cs =conn.prepareCall(sql);
+			cs.registerOutParameter(1, OracleTypes.CURSOR);
+			cs.execute();
+			
+			ResultSet rs = (ResultSet) cs.getObject(1);
+			
+			
 			while (rs.next()) {
 
 				int rid = rs.getInt("rID");

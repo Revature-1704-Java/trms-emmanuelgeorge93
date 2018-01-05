@@ -32,7 +32,7 @@ public class ReimbursementDaoTest {
 
 	@Test
 	public void testGetReimbursement() {
-		Reimbursement l = rdao.getReimbursement(1);
+		Reimbursement l = rdao.getReimbursement(2);
 
 		System.out.println("----------get a Reimbursement tester----------");
 
@@ -41,31 +41,32 @@ public class ReimbursementDaoTest {
 				+ " " + l.getExcdAMOUNT() + " " + l.getExcdREASON() + " " + l.getEventDesc() + " "
 				+ " " + l.getrDREASON() + " " + l.getDepartmentStatus() + " " + l.getSuperStatus() + " " + l.getBencoStatus());
 
-		assertEquals(l.getrID(), 1);
+		assertEquals(l.getrID(), 2);
 	}
 
 	@Test
 	public void testaddReimbursement() {
 		// COMMENTED THE ADD OUT BECAUSE IT WOULD ADD A NEW ENTRY EVERYTIME I TESTED
 
-		// rdao.addReimbursement(3, 3, 3, "test", 30, 3, "test", 3, 3, 3, 3, 3, 3);
+		rdao.addReimbursement(3, 3, 3, "test", 30, 3, 3, 3);
 
-		Reimbursement l = rdao.getReimbursement(1);
+		Reimbursement l = rdao.getReimbursement(2);
 
-		assertEquals(l.getrID(), 1);
+		assertEquals(l.getrID(), 2);
 	}
 
+	//DELETE IS COMMENTED OUT OTHERWISE IT WILL FAIL AFTER THE FIRST TEST WHERE IT DELETES ITS ROW
 	@Test
 	public void testdeleteReimbursement() {
-		// rdao.deleteReimbursement(23);
+		//rdao.deleteReimbursement(1);
 	}
 
 	@Test
 	public void testupdateReimbursement() {
-		rdao.updateReimbursement(1, 4, 4, 4, "04-APR-93", 20, "75", 0, 1, 4.99, 1, 1, 1, 1, 1);
+		rdao.updateReimbursement(2, 1, 4, 4, "04-APR-93", 20, "75", 0, 1, 4.99, 1, 1, 1, 1, 1);
 
-		Reimbursement l = rdao.getReimbursement(1);
+		Reimbursement l = rdao.getReimbursement(2);
 
-		assertEquals(l.getrID(), 1);
+		assertEquals(l.getrID(), 2);
 	}
 }

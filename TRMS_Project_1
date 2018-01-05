@@ -157,6 +157,17 @@ BEGIN
 END;
 /
 
+
+-- Stored Procedures
+
+CREATE OR REPLACE PROCEDURE SE_GROUP(rs OUT SYS_REFCURSOR)
+AS
+BEGIN
+    OPEN rs FOR
+    SELECT * FROM REIMBURSEMENT ORDER BY rID ASC;
+END;
+/
+
 -- drop tables, keys and triggers
 /*
 ALTER TABLE REIMBURSEMENT DROP CONSTRAINT FK_eventID;
@@ -222,5 +233,7 @@ INSERT INTO GRADE VALUES(30, 'Letter Grade', 75);
 INSERT INTO FILES VALUES(1, 'N/A', 'N/A');
 INSERT INTO FILES VALUES(2, 'BLANK', 'BLANK');
 INSERT INTO FILES VALUES(3, 'TEST', 'TEST');
+
+Update Employee set amount = 1000 where amount < 1000;
 
 commit;
