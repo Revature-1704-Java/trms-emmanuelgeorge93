@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>TRMS | Update a Reimbursement</title>
+    <meta name="author" content="Emmanuel">
+    <link rel="stylesheet" href="Trms.css">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div id="branding">
+          <h1>
+            <span class="highlight">
+              TRMS
+            </span>
+          </h1>
+        </div>
+
+        <nav>
+          <ul>
+            <li>
+              <a href="Home.html">Home</a>
+            </li>
+            <li>
+              <a href="Login.html">Login</a>
+            </li>
+            <li>
+              <a href="Home.html">About</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section id="showcase">
+      <div class="container">
+      
+	      	<form action="UpdateReimbursementServlet" method="POST">
+				Employee#:<input type="text" placeholder="Enter Employee#" name="eid" required><br/>
+				Event Id:<input type="text" placeholder="Enter Event Id" name="eventid" required><br/>
+				Reason:<input type="text" placeholder="Enter Reason Id" name="ereason" required><br/>
+				Event Date:<input type="text" placeholder="DD/MM/YYYY" name="eventdate" required><br/>
+				Grade Format:<input type="text" placeholder="Enter grading format id" name="gid" required><br/>
+				Grade<input type="text" placeholder="Enter Your grade" name="grade" required><br/>
+				Excess Amount:<input type="text" placeholder="Enter excess Reimbursement" name="excdamount" required><br/>
+				Reasons for Excess<input type="text" placeholder="Enter excess Reimbursement" name="excdreason" required><br/>
+				Reimbursement Amount:<input type="text" placeholder="Enter True Reimbursement amount" name="ramount" required><br/>
+				Event Desc:<input type="text" placeholder="Enter Event Desc File Id" name="eventdesc" required><br/>
+				Reimbursement Denial Reasons:<input type="text" placeholder="Enter Deinal Id" name="rdreason" required><br/>
+				Department Status:<input type="text" placeholder="Department Status" name="departmentStatus" required><br/>
+				Supervisor Status:<input type="text" placeholder="Supervisor Status" name="superStatus" required><br/>
+				Benco Status:<input type="text" placeholder="Benco Status" name="bencoStatus" required><br/>				
+				<input type="submit" value="Update">
+			</form>
+
+	  </div>
+	</section>
+
+    <section id="newsletter">
+      <div class="container">
+      
+      </div>
+    </section>
+
+    <footer>
+      <p>TRMS, Copyright &copy; 2017</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,226 @@
+/*******************************************************************************
+   Drop database if it exists
+********************************************************************************/
+DROP USER TRMS CASCADE;
+
+
+/*******************************************************************************
+   Create database
+********************************************************************************/
+CREATE USER TRMS
+IDENTIFIED BY p4ssw0rd
+DEFAULT TABLESPACE users
+TEMPORARY TABLESPACE temp
+QUOTA 10M ON users;
+
+GRANT connect to TRMS;
+GRANT resource to TRMS;
+GRANT create session TO TRMS;
+GRANT create table TO TRMS;
+GRANT create view TO TRMS;
+
+
+
+conn TRMS/p4ssw0rd
+
+/*******************************************************************************
+   Create tables
+********************************************************************************/
+
+
+CREATE TABLE Employee
+(
+    eID NUMBER NOT NULL,
+    firstNAME VARCHAR2(160) NOT NULL,
+    lastNAME VARCHAR2(160) NOT NULL,
+    passwrd VARCHAR2(160) NOT NULL,
+    superID NUMBER NOT NULL,
+    dID NUMBER NOT NULL,
+    bncoID NUMBER NOT NULL,
+    eTYPE NUMBER NOT NULL,
+    amount NUMBER NOT NULL,
+    CONSTRAINT PK_eID PRIMARY KEY (eID)
+);
+
+CREATE TABLE EmployeeType
+(
+    eTYPEID NUMBER NOT NULL,
+    tNAME VARCHAR2(160) NOT NULL,
+    CONSTRAINT PK_eTYPEID PRIMARY KEY (eTYPEID)
+);
+
+CREATE TABLE Files
+(
+    fID NUMBER NOT NULL,
+    fDESC VARCHAR2(160),
+    fPATH VARCHAR2(160) NOT NULL,
+    CONSTRAINT PK_fID PRIMARY KEY (fID)
+);
+
+CREATE TABLE Event
+(
+    eventID NUMBER NOT NULL,
+    eventTYPE VARCHAR2(160) NOT NULL,
+    rCOVERAGE NUMBER NOT NULL,
+    CONSTRAINT PK_eventID PRIMARY KEY (eventID)
+);
+
+CREATE TABLE Grade
+(
+    gID NUMBER NOT NULL,
+    gTYPE VARCHAR2(160), --format for grading
+    passMARK VARCHAR2(160), -- what is needed to pass
+    CONSTRAINT PK_Grade PRIMARY KEY (gID)
+);
+
+CREATE TABLE Reimbursement
+(
+    rID NUMBER NOT NULL,
+    eID NUMBER NOT NULL,
+    eventID NUMBER NOT NULL,
+    eREASON NUMBER, --employee's reasons for the event this is an id for a file
+    eventDATE VARCHAR2(160) NOT NULL, --date of event
+    gID NUMBER NOT NULL, --id of grading format
+    eGRADE VARCHAR2(160), --employees acutal grade
+    eSUBMIT VARCHAR2(160) NOT NULL, --date employee submitted form
+    excdAMOUNT NUMBER,  --amount exceding the reimbursement
+    excdREASON NUMBER, -- reason for excess reimbusement as id for file
+    rAMOUNT NUMBER NOT NULL, -- amount of reimbusement
+    eventDESC NUMBER, --Information for event as id to file
+    rDREASON NUMBER, -- reason for denial of reimbursement as id for file
+    departmentStatus NUMBER,
+    superStatus NUMBER,
+    bencoStatus NUMBER,
+    CONSTRAINT PK_rID PRIMARY KEY (rID)
+);
+
+-- alters for Reimbursement table
+
+ALTER TABLE Reimbursement ADD CONSTRAINT FK_eventID
+    FOREIGN KEY (eventID) REFERENCES Event (eventID) ON DELETE CASCADE;
+
+ALTER TABLE Reimbursement ADD CONSTRAINT FK_eID
+    FOREIGN KEY (eID) REFERENCES Employee (eID) ON DELETE CASCADE;  
+    
+ALTER TABLE Reimbursement ADD CONSTRAINT FK_gID
+    FOREIGN KEY (gID) REFERENCES Grade (gID) ON DELETE CASCADE;
+    
+-- alters for Employee table
+
+ALTER TABLE Employee ADD CONSTRAINT FK_superID
+    FOREIGN KEY (superID) REFERENCES Employee (eID) ON DELETE CASCADE;
+    
+ALTER TABLE Employee ADD CONSTRAINT FK_dID
+    FOREIGN KEY (dID) REFERENCES Employee (eID) ON DELETE CASCADE;
+    
+ALTER TABLE Employee ADD CONSTRAINT FK_bncoID
+    FOREIGN KEY (bncoID) REFERENCES Employee (eID) ON DELETE CASCADE;
+    
+ALTER TABLE Employee ADD CONSTRAINT FK_eTYPE
+    FOREIGN KEY (eTYPE) REFERENCES EmployeeType (eTYPEID) ON DELETE CASCADE;
+    
+
+-- Sequences && triggers
+
+CREATE SEQUENCE SQ_EMPLOYEE_PK
+START WITH 13
+INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER TR_INSERT_EMPLOYEE
+BEFORE INSERT ON EMPLOYEE
+FOR EACH ROW
+BEGIN
+    SELECT SQ_EMPLOYEE_PK.NEXTVAL
+    INTO :NEW.eID FROM DUAL;
+END;
+/
+
+CREATE SEQUENCE SQ_REIMBURSEMENT_PK
+START WITH 1
+INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER TR_INSERT_REIMBURSEMENT
+BEFORE INSERT ON REIMBURSEMENT
+FOR EACH ROW
+BEGIN
+    SELECT SQ_REIMBURSEMENT_PK.NEXTVAL
+    INTO :NEW.rID FROM DUAL;
+END;
+/
+
+CREATE OR REPLACE TRIGGER TR_DATE_REIMBURSEMENT
+BEFORE INSERT ON REIMBURSEMENT
+FOR EACH ROW
+BEGIN
+    SELECT SYSDATE
+    INTO :NEW.eSUBMIT FROM DUAL;
+END;
+/
+
+-- drop tables, keys and triggers
+/*
+ALTER TABLE REIMBURSEMENT DROP CONSTRAINT FK_eventID;
+ALTER TABLE REIMBURSEMENT DROP CONSTRAINT FK_eID;
+ALTER TABLE REIMBURSEMENT DROP CONSTRAINT FK_gID;
+
+ALTER TABLE EMPLOYEE DROP CONSTRAINT FK_superID;
+ALTER TABLE EMPLOYEE DROP CONSTRAINT FK_dID;
+ALTER TABLE EMPLOYEE DROP CONSTRAINT FK_eTYPE;
+ALTER TABLE EMPLOYEE DROP CONSTRAINT FK_bncoID;
+
+DROP TABLE EMPLOYEE;
+DROP TABLE EMPLOYEETYPE;
+DROP TABLE FILES;
+DROP TABLE EVENT;
+DROP TABLE GRADE;
+DROP TABLE REIMBURSEMENT;
+
+DROP TRIGGER TR_INSERT_EMPLOYEE;
+DROP SEQUENCE SQ_EMPLOYEE_PK;
+
+DROP TRIGGER TR_INSERT_REIMBURSEMENT;
+DROP SEQUENCE SQ_REIMBURSEMENT_PK;
+*/
+--values for tables
+
+--these are department heads
+INSERT INTO EMPLOYEE VALUES(1, 'aaaa', 'aaaa', 'aaaa', 1, 1, 7, 1, 1000.00);
+INSERT INTO EMPLOYEE VALUES(2, 'bbbb', 'bbbb', 'bbbb', 2, 2, 8, 1, 1000.00);
+INSERT INTO EMPLOYEE VALUES(3, 'cccc', 'cccc', 'cccc', 3, 3, 9, 1, 1000.00);
+
+--these are supervisors
+INSERT INTO EMPLOYEE VALUES(4, 'dddd', 'dddd', 'dddd', 1, 1, 7, 2, 1000.00);
+INSERT INTO EMPLOYEE VALUES(5, 'eeee', 'eeee', 'eeee', 2, 2, 8, 2, 1000.00);
+INSERT INTO EMPLOYEE VALUES(6, 'ffff', 'ffff', 'ffff', 3, 3, 9, 2, 1000.00);
+
+--these are bencos
+INSERT INTO EMPLOYEE VALUES(7, 'gggg', 'gggg', 'gggg', 7, 7, 7, 3, 1000.00); --this guy is the benco head
+INSERT INTO EMPLOYEE VALUES(8, 'hhhh', 'hhhh', 'hhhh', 7, 7, 8, 3, 1000.00);
+INSERT INTO EMPLOYEE VALUES(9, 'iiii', 'iiii', 'iiii', 7, 7, 9, 3, 1000.00);
+
+--these are standard employees
+INSERT INTO EMPLOYEE VALUES(10, 'jjjj', 'jjjj', 'jjjj', 4, 1, 7, 4, 1000.00);
+INSERT INTO EMPLOYEE VALUES(11, 'kkkk', 'kkkk', 'kkkk', 5, 2, 8, 4, 1000.00);
+INSERT INTO EMPLOYEE VALUES(12, 'llll', 'llll', 'llll', 6, 3, 9, 4, 1000.00);
+
+INSERT INTO EMPLOYEETYPE VALUES(1, 'DEPARTMENT HEAD');
+INSERT INTO EMPLOYEETYPE VALUES(2, 'SUPERVISOR');
+INSERT INTO EMPLOYEETYPE VALUES(3, 'BENEFITS COORDINATOR');
+INSERT INTO EMPLOYEETYPE VALUES(4, 'STANDARD');
+
+INSERT INTO Event VALUES(1, 'University Course', 80);
+INSERT INTO Event VALUES(2, 'Seminar', 60);
+INSERT INTO Event VALUES(3, 'Certification PreClass', 75);
+INSERT INTO Event VALUES(4, 'Certification', 100);
+INSERT INTO Event VALUES(5, 'Technical Training', 90);
+INSERT INTO Event VALUES(6, 'Other', 30);
+
+INSERT INTO GRADE VALUES(10, 'Pass/Fail', 50);
+INSERT INTO GRADE VALUES(20, 'Presentation', 100);
+INSERT INTO GRADE VALUES(30, 'Letter Grade', 75);
+
+INSERT INTO FILES VALUES(1, 'N/A', 'N/A');
+INSERT INTO FILES VALUES(2, 'BLANK', 'BLANK');
+INSERT INTO FILES VALUES(3, 'TEST', 'TEST');
+
+commit;
