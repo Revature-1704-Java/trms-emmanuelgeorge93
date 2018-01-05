@@ -42,8 +42,9 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("User", user);
 
-				//note here a department head cannot act as a supervisor or benco to anyone
-				//better login would be to allow each  if to only set a flag then go to ViewEmployeesServlet
+				// note here a department head cannot act as a supervisor or benco to anyone
+				// better login would be to allow each if to only set a flag then go to
+				// ViewEmployeesServlet
 				if (user.geteTYPE() == 1) {
 					// this is a department head
 					session.setAttribute("idflag", 1);
@@ -72,8 +73,8 @@ public class LoginServlet extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("ViewReimbursementsServlet");
 					rd.include(request, response);
 				}
-				//end of inner if else-if chain
-				
+				// end of inner if else-if chain
+
 				// above logic does not allow for a department head to acess the supervisor
 				// functions of his direct subordinates
 				// extreme case example the department head of benco could not give supervisor

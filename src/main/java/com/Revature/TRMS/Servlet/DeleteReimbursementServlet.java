@@ -16,15 +16,16 @@ import com.Revature.TRMS.impl.Reimbursement;
 @WebServlet("/DeleteReimbursementServlet")
 public class DeleteReimbursementServlet extends HttpServlet {
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		int rid = Integer.parseInt(request.getParameter("rid"));
-		
-		//find the Reimbursement and store in session
+
+		// find the Reimbursement and store in session
 		ReimbursementDao rdao = new ReimbursementDao();
 		rdao.deleteReimbursement(rid);
 

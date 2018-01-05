@@ -147,7 +147,6 @@ public class EmployeeDao {
 			ps.setInt(1, id);
 
 			rs = ps.executeQuery();
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -190,7 +189,6 @@ public class EmployeeDao {
 			ps.setInt(9, eid);
 
 			rs = ps.executeQuery();
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

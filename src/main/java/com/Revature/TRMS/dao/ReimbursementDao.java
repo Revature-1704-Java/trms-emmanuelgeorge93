@@ -43,8 +43,8 @@ public class ReimbursementDao {
 				int superStatus = rs.getInt("superStatus");
 				int bencoStatus = rs.getInt("bencoStatus");
 
-				reimForm = new Reimbursement(rid, eid, eventid, ereason, eventdate, gid, egrade, esubmit, excdamount, excdreason,
-						ramount, eventdesc, rdreason, departStatus, superStatus, bencoStatus);
+				reimForm = new Reimbursement(rid, eid, eventid, ereason, eventdate, gid, egrade, esubmit, excdamount,
+						excdreason, ramount, eventdesc, rdreason, departStatus, superStatus, bencoStatus);
 				reimList.add(reimForm);
 			}
 			rs.close();
@@ -91,8 +91,8 @@ public class ReimbursementDao {
 				int superStatus = rs.getInt("superStatus");
 				int bencoStatus = rs.getInt("bencoStatus");
 
-				reimForm = new Reimbursement(rid, eid, eventid, ereason, eventdate, gid, egrade, esubmit, excdamount, excdreason,
-						ramount, eventdesc, rdreason, departStatus, superStatus, bencoStatus);
+				reimForm = new Reimbursement(rid, eid, eventid, ereason, eventdate, gid, egrade, esubmit, excdamount,
+						excdreason, ramount, eventdesc, rdreason, departStatus, superStatus, bencoStatus);
 				reimList.add(reimForm);
 			}
 			rs.close();
@@ -135,8 +135,8 @@ public class ReimbursementDao {
 				int superStatus = rs.getInt("superStatus");
 				int bencoStatus = rs.getInt("bencoStatus");
 
-				reimForm = new Reimbursement(rid, eid, eventid, ereason, eventdate, gid, egrade, esubmit, excdamount, excdreason,
-						ramount, eventdesc, rdreason, departStatus, superStatus, bencoStatus);
+				reimForm = new Reimbursement(rid, eid, eventid, ereason, eventdate, gid, egrade, esubmit, excdamount,
+						excdreason, ramount, eventdesc, rdreason, departStatus, superStatus, bencoStatus);
 			}
 			rs.close();
 			ps.close();

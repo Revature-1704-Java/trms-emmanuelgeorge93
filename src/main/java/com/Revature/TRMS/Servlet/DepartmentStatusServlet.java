@@ -14,25 +14,25 @@ import javax.servlet.http.HttpSession;
 import com.Revature.TRMS.dao.ReimbursementDao;
 import com.Revature.TRMS.impl.Reimbursement;
 
-/**
- * Servlet implementation class StatusServlet
- */
 @WebServlet("/DepartmentStatusServlet")
 public class DepartmentStatusServlet extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		int rid = Integer.parseInt(request.getParameter("rid"));
 		int statusC = Integer.parseInt(request.getParameter("statusC"));
 		ReimbursementDao rdao = new ReimbursementDao();
-		
-		//with values from page we change the value of departmentStatus: approve is 1 deny is 0
+
+		// with values from page we change the value of departmentStatus: approve is 1
+		// deny is 0
 		rdao.departmentStatus(rid, statusC);
-		
+
 		RequestDispatcher rd = request.getRequestDispatcher("DetailsServlet");
 		rd.forward(request, response);
 	}
